@@ -10,6 +10,8 @@ class JsonToMvc
 {
     private Results\ModelText $results;
 
+    private string $namespace;
+
     private string $jsonText;
 
     public function setJsonText(string $jsonText): self
@@ -19,13 +21,25 @@ class JsonToMvc
         return $this;
     }
 
-    public function execute()
+    public function setNamespace(string $namespace): self
+    {
+        $this->namespace = $namespace;
+        return $this;
+    }
+
+    public function execute(): void
     {
         $this->results = new Results\ModelText();
 
         if (!isset($this->jsonText)) {
             $this->results->addError("");
         }
+
+        $convertter = new ConvertJsonTextToModelText(
+            $this->jsonText
+        );
+
+        $this->results->setClassString($convertter->getString());
     }
 
     public function getResults(): Results\ModelText

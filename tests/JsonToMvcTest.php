@@ -23,7 +23,7 @@ class JsonToMvcTest extends TestCase
         $this->jsonToMvc->getResults();
     }
 
-    public function testGetModelText(): void
+    public function testGetModelTextForPerson(): void
     {
         $expected = <<<'EOT'
         <?php
@@ -38,6 +38,95 @@ class JsonToMvcTest extends TestCase
         }
         EOT;
 
-        $this->markTestIncomplete();
+        $sourceJson = <<<'EOT'
+        {
+            "className": "Person",
+            "fields": [
+                {
+                    "name": "name"
+                },
+                {
+                    "name": "surname"
+                }
+            ]
+        }
+        EOT;
+
+        $this->jsonToMvc->setJsonText($sourceJson);
+        $this->jsonToMvc->execute();
+        $results = $this->jsonToMvc->getResults();
+
+        $this->assertSame($expected, $results->getClassText());
+    }
+
+    public function testGetModelTextForCar(): void
+    {
+        $expected = <<<'EOT'
+        <?php
+
+        declare(strict_types= 1);
+
+        use Illuminate\Database\Eloquent\Model;
+
+        class Car extends Model
+        {
+            protected $fillable = ['brand', 'model'];
+        }
+        EOT;
+
+        $sourceJson = <<<'EOT'
+        {
+            "className": "Car",
+            "fields": [
+                {
+                    "name": "brand"
+                },
+                {
+                    "name": "model"
+                }
+            ]
+        }
+        EOT;
+
+        $this->jsonToMvc->setJsonText($sourceJson);
+        $this->jsonToMvc->execute();
+        $results = $this->jsonToMvc->getResults();
+
+        $this->assertSame($expected, $results->getClassText());
+    }
+
+    public function testGetModelTextWrongFormat(): void
+    {
+        $this->expectException(Exceptions\JsonConversionError::class);
+
+        $expected = <<<'EOT'
+        <?php
+
+        declare(strict_types= 1);
+
+        use Illuminate\Database\Eloquent\Model;
+
+        class Car extends Model
+        {
+            protected $fillable = ['brand', 'model'];
+        }
+        EOT;
+
+        $sourceJson = <<<'EOT'
+        {
+            className: "Car",
+            fields: [
+                {
+                    name: "brand"
+                },
+                {
+                    name: "model"
+                }
+            ]
+        }
+        EOT;
+
+        $this->jsonToMvc->setJsonText($sourceJson);
+        $this->jsonToMvc->execute();
     }
 }
