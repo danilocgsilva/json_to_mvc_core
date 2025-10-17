@@ -99,19 +99,6 @@ class JsonToMvcTest extends TestCase
     {
         $this->expectException(Exceptions\JsonConversionError::class);
 
-        $expected = <<<'EOT'
-        <?php
-
-        declare(strict_types= 1);
-
-        use Illuminate\Database\Eloquent\Model;
-
-        class Car extends Model
-        {
-            protected $fillable = ['brand', 'model'];
-        }
-        EOT;
-
         $sourceJson = <<<'EOT'
         {
             className: "Car",
@@ -128,5 +115,38 @@ class JsonToMvcTest extends TestCase
 
         $this->jsonToMvc->setJsonText($sourceJson);
         $this->jsonToMvc->execute();
+    }
+
+    public function testGetModelTextForSingleFillable(): void
+    {
+        $expected = <<<'EOT'
+        <?php
+
+        declare(strict_types= 1);
+
+        use Illuminate\Database\Eloquent\Model;
+
+        class Money extends Model
+        {
+            protected $fillable = ['amount'];
+        }
+        EOT;
+
+        $sourceJson = <<<'EOT'
+        {
+            "className": "Money",
+            "fields": [
+                {
+                    "name": "amount"
+                }
+            ]
+        }
+        EOT;
+
+        $this->jsonToMvc->setJsonText($sourceJson);
+        $this->jsonToMvc->execute();
+        $results = $this->jsonToMvc->getResults();
+
+        $this->assertSame($expected, $results->getClassText());
     }
 }

@@ -26,17 +26,19 @@ class ConvertJsonTextToModelText
 
         class %s extends Model
         {
-            protected $fillable = ['%s', '%s'];
+            protected $fillable = [%s];
         }
         EOF;
 
+        $dynamicPlaceholders = array_fill(0, count($jsonData->fields), '\'%s\'');
+
+        $dynamicBaseString = sprintf($baseString, $jsonData->className, implode(', ', $dynamicPlaceholders));
+
         $parameters = array_merge(
-            [$baseString], 
-            [
-                $jsonData->className, 
-                $jsonData->fields[0]->name, 
-                $jsonData->fields[1]->name
-            ]
+            [$dynamicBaseString], 
+            array_map(function ($entry) {
+                return $entry->name;
+            }, $jsonData->fields)
         );
 
         return sprintf(
