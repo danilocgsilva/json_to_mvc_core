@@ -1,0 +1,27 @@
+{
+    "name": "danilocgsilva/json_to_mvc",
+    "description": "Creates the MVC assets for framework based on json",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Danilocgsilva\\JsonToMvc\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Danilo Silva",
+            "email": "contact@danilocgsilva.me"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
