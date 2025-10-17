@@ -1,1 +1,1 @@
-{"version":2,"defects":{"Tests\\JsonToMvcTest::testJsonToMvc":7},"times":{"Tests\\JsonToMvcTest::testJsonToMvc":0.002}}
+{"version":2,"defects":{"Tests\\JsonToMvcTest::testJsonToMvc":7,"Tests\\JsonToMvcTest::testThrowsIfJsonNotSetted":7,"Tests\\JsonToMvcTest::test":7,"Tests\\JsonToMvcTest::testGetModelText":2},"times":{"Tests\\JsonToMvcTest::testJsonToMvc":0.002,"Tests\\JsonToMvcTest::testThrowsIfJsonNotSetted":0.003,"Tests\\JsonToMvcTest::test":0.002,"Tests\\JsonToMvcTest::testGetModelText":0.006}}

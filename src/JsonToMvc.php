@@ -4,23 +4,36 @@ declare(strict_types= 1);
 
 namespace Danilocgsilva\JsonToMvc;
 
-use Danilocgsilva\JsonToMvc\Exceptions;
+use Danilocgsilva\JsonToMvc\Results;
 
 class JsonToMvc
 {
+    private Results\ModelText $results;
+
     private string $jsonText;
 
     public function setJsonText(string $jsonText): self
     {
+        $this->jsonText = $jsonText;
+
         return $this;
     }
 
-    public function getModelText(): string
+    public function execute()
     {
-        if ($this->jsonText === null) {
-            throw new Exceptions\JsonNotSetted();
+        $this->results = new Results\ModelText();
+
+        if (!isset($this->jsonText)) {
+            $this->results->addError("");
+        }
+    }
+
+    public function getResults(): Results\ModelText
+    {
+        if (!isset($this->results)) {
+            throw new Exceptions\NotExecuted();
         }
 
-        return "";
+        return $this->results;
     }
 }

@@ -6,7 +6,7 @@ namespace Danilocgsilva\JsonToMvc\Exceptions;
 
 use Exception;
 
-class JsonNotSetted extends Exception
+class NotExecuted extends Exception
 {
 
 }
