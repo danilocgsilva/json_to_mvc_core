@@ -30,11 +30,17 @@ class ConvertJsonTextToModelText
         }
         EOF;
 
+        $parameters = array_merge(
+            [$baseString], 
+            [
+                $jsonData->className, 
+                $jsonData->fields[0]->name, 
+                $jsonData->fields[1]->name
+            ]
+        );
+
         return sprintf(
-            $baseString, 
-            $jsonData->className, 
-            $jsonData->fields[0]->name, 
-            $jsonData->fields[1]->name
+            ...$parameters
         );
     }
 
